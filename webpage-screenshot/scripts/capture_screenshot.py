@@ -1,11 +1,13 @@
 """
-Full-page screenshot capture using Playwright.
+Full-page web page screenshot capture using Playwright.
 
 Usage:
     python capture_screenshot.py https://example.com output.png
+    python capture_screenshot.py http://localhost:3000 local-app.png
     python capture_screenshot.py https://example.com output.jpg --format jpeg --quality 80
     python capture_screenshot.py https://example.com output.png --mobile
     python capture_screenshot.py https://example.com element.png --selector ".chart"
+    python capture_screenshot.py http://localhost:5173 app.png --wait-for-server
 """
 
 import asyncio
@@ -79,7 +81,26 @@ def main():
     parser.add_argument("--selector", help="CSS selector to capture a single element")
     parser.add_argument("--timeout", type=int, default=30000, help="Page load timeout in ms")
     parser.add_argument("--remove", nargs="*", default=None, help="CSS selectors to remove before capture")
+    parser.add_argument("--wait-for-server", action="store_true", help="Poll until dev server is ready before capturing")
     args = parser.parse_args()
+
+    if args.wait_for_server:
+        import httpx, time as _time
+        print(f"[wait] Waiting for {args.url}...")
+        start = _time.time()
+        while _time.time() - start < 30:
+            try:
+                r = httpx.get(args.url, timeout=2)
+                if r.status_code < 500:
+                    print(f"[wait] Server ready ({r.status_code})")
+                    break
+            except Exception:
+                pass
+            _time.sleep(1)
+        else:
+            print(f"[error] Server at {args.url} not ready after 30s")
+            return
+
     asyncio.run(capture(
         url=args.url,
         output=args.output,

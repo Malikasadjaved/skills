@@ -18,6 +18,10 @@ triggers:
   - browser screenshot
   - webpage snapshot
   - capture webpage
+  - capture localhost
+  - capture my page
+  - localhost screenshot
+  - local dev screenshot
   - headless browser
   - website screenshot
   - page to png
@@ -35,6 +39,7 @@ from one-off scripts through FastAPI endpoints serving AI agents.
 **What this skill covers (that generic Playwright docs don't):**
 
 - Full-page screenshots with lazy-load and infinite-scroll handling
+- Local dev server capture — point at `http://localhost:3000` and get a screenshot
 - Production FastAPI endpoint — accept a URL, return a PNG
 - Docker Compose with Chromium and all system dependencies
 - Browser pooling so you don't launch a new browser per request
@@ -48,6 +53,7 @@ from one-off scripts through FastAPI endpoints serving AI agents.
 | Scenario | Use |
 |---|---|
 | I need to capture a full webpage as PNG from a URL | **This skill** |
+| I want a screenshot of my local dev server (localhost:3000, etc.) | **This skill** |
 | I need a FastAPI endpoint that returns screenshots | **This skill** |
 | I want to write Playwright tests | Official Playwright docs |
 | I need a general-purpose browser agent | agent-browser skill |
@@ -75,6 +81,95 @@ asyncio.run(capture("https://example.com"))
 This works but is NOT suitable for production — it launches a browser per
 request (~500ms overhead), doesn't handle errors, and has no concurrency
 control. The patterns below fix all of that.
+
+## Local Development
+
+The most common use case: you're building a web app and want a quick screenshot
+without deploying it. Playwright runs on your machine and can capture
+`http://localhost:*` just like any remote URL.
+
+### Capture your local dev server
+
+```python
+# Vite / React (default port 5173)
+asyncio.run(capture("http://localhost:5173", "my-app.png"))
+
+# Next.js (default port 3000)
+asyncio.run(capture("http://localhost:3000", "next-app.png"))
+
+# FastAPI / Flask (common port 8000 or 5000)
+asyncio.run(capture("http://localhost:8000/docs", "api-docs.png"))
+```
+
+### Wait for dev server to be ready
+
+If your dev server hasn't started yet, the capture will fail with
+`net::ERR_CONNECTION_REFUSED`. Poll until it's up:
+
+```python
+import time
+import httpx
+
+def wait_for_dev_server(url: str, timeout: int = 30):
+    """Block until the dev server responds."""
+    start = time.time()
+    while time.time() - start < timeout:
+        try:
+            resp = httpx.get(url, timeout=2)
+            if resp.status_code < 500:
+                print(f"[wait] Server ready at {url}")
+                return
+        except Exception:
+            pass
+        time.sleep(1)
+    raise TimeoutError(f"Dev server at {url} not ready after {timeout}s")
+
+wait_for_dev_server("http://localhost:5173")
+asyncio.run(capture("http://localhost:5173", "app.png"))
+```
+
+### Capture with hot-reload (Vite, Next.js, etc.)
+
+Dev servers with HMR hold WebSocket connections open, which can prevent
+`networkidle` from ever firing. Use `domcontentloaded` + a fixed wait instead:
+
+```python
+page = await browser.new_page()
+await page.goto("http://localhost:5173", wait_until="domcontentloaded")
+await asyncio.sleep(2)  # let React/Vue/Svelte hydrate
+await page.screenshot(path="app.png", full_page=True)
+```
+
+### Capture multiple pages of your local app
+
+```python
+pages = [
+    ("http://localhost:3000", "home.png"),
+    ("http://localhost:3000/about", "about.png"),
+    ("http://localhost:3000/pricing", "pricing.png"),
+    ("http://localhost:3000/login", "login.png"),
+]
+
+browser = await p.chromium.launch(headless=True)
+for url, filename in pages:
+    page = await browser.new_page()
+    await page.goto(url, wait_until="networkidle")
+    await page.screenshot(path=filename, full_page=True)
+    await page.close()
+    print(f"[capture] {url} → {filename}")
+await browser.close()
+```
+
+### Docker caveat
+
+If you're running the capture script inside Docker but your dev server runs on
+the host, `localhost` won't work — it points to the container. Use
+`host.docker.internal` instead:
+
+```python
+# Inside Docker, reaching the host machine
+asyncio.run(capture("http://host.docker.internal:3000", "app.png"))
+```
 
 ## Full-Page Screenshot
 
