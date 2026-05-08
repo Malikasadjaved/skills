@@ -17,6 +17,7 @@ triggers:
   - whatsapp webhook
   - meta cloud api
   - AI receptionist
+  - clinic automation
   - digital FTE
   - whatsapp agent
 version: 1.0.0

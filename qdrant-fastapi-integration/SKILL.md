@@ -1,18 +1,21 @@
 ---
-name: qdrant-patterns
+name: qdrant-fastapi-integration
 description: >
-  Use this skill when working with Qdrant vector database — creating
-  collections, upserting embeddings, running semantic/hybrid search,
-  managing payloads, and integrating Qdrant with FastAPI or async
-  Python services. Covers both local Docker and Qdrant Cloud setups.
+  Use this skill when integrating Qdrant into a FastAPI async
+  backend — lifespan client injection, tenant isolation via
+  payload filters, batch upsert patterns, and production
+  deployment with Docker Compose. Complements the official
+  qdrant/skills with application-layer integration patterns.
 triggers:
-  - qdrant
+  - qdrant fastapi
+  - qdrant integration
+  - fastapi vector database
+  - tenant isolation qdrant
+  - multi-tenant vector search
   - vector database
-  - vector search
   - semantic search
-  - embeddings
   - RAG
-  - pgvector alternative
+  - embeddings
   - similarity search
 version: 1.0.0
 author: malikasadjaved
@@ -20,27 +23,34 @@ author: malikasadjaved
 
 ## Overview
 
-Qdrant is an open-source vector database purpose-built for similarity
-search. It stores high-dimensional vector embeddings alongside their
-payload (metadata) and provides filtered search, hybrid search, and
-sparse/dense multi-vector support out of the box.
+This skill covers the application-layer patterns for running Qdrant inside
+a FastAPI backend — the glue between your async web framework and the vector
+store. It does NOT duplicate the official Qdrant client docs; instead it
+focuses on what changes when Qdrant is a dependency of a production FastAPI
+service serving multiple tenants.
 
-**Use Qdrant when** you need:
-- Lightning-fast ANN (approximate nearest neighbour) search at scale
-- Payload filtering that doesn't degrade query performance
-- Multi-tenancy with per-tenant collection or payload-based isolation
-- Named vectors for multi-model embeddings in a single point
-- A Rust-native engine with gRPC + REST APIs and a first-class async Python client
+**What this skill covers (that the official qdrant/skills does not):**
 
-**Use pgvector when** you need:
+- Lifespan-managed client injection so one `QdrantClient` lives across requests
+- Tenant isolation via payload filters (single collection, many tenants)
+- Batch upsert with idempotent UUID5 IDs — safe to re-run ingestion
+- Payload indexing strategy for filtered search at scale
+- Connection retry, error handling, and structured error responses
+- Docker Compose deployment alongside FastAPI + Redis + Postgres
+
+**When to use qdrant-fastapi-integration vs. the official qdrant/skills:**
+
+| Scenario | Use |
+|---|---|
+| I need the full Qdrant client API reference | Official qdrant/skills |
+| I'm building a FastAPI app with Qdrant as a dependency | **This skill** |
+| I need multi-tenant search with payload filters | **This skill** |
+| I'm doing a one-off Python script / notebook | Official qdrant/skills |
+
+**When to use pgvector instead:**
 - OLTP + vector in one query (no eventual consistency between DBs)
 - Small datasets (< 100K vectors) where operational simplicity beats speed
 - A single Postgres instance already running and cost is the main constraint
-
-This project uses Qdrant via Docker at `http://localhost:6333` with the
-REST API for upsert, query, and collection management. The `shared/rag/pipeline.py`
-module is the canonical reference implementation — this skill captures the
-patterns from that module and extends them for general use.
 
 ## Setup
 
