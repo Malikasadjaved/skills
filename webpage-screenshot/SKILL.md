@@ -1,13 +1,15 @@
 ---
-name: screenshot-capture
+name: webpage-screenshot
 description: >
-  Use this skill when capturing full-page screenshots of webpages —
+  Use this skill when capturing full-page screenshots of web pages —
   Playwright headless browser, full-page PNG/JPEG output, lazy-load
   handling, element-specific captures, PDF generation, device
   emulation (mobile/tablet), and FastAPI integration for agent
   backends. Covers Docker deployment with Chromium dependencies.
 triggers:
   - screenshot
+  - webpage screenshot
+  - web page screenshot
   - full page screenshot
   - web capture
   - page to image

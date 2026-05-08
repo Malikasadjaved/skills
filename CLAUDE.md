@@ -5,7 +5,7 @@ This repo publishes agent skills for the [skills.sh](https://skills.sh) ecosyste
 ## Repo structure
 
 ```
-screenshot-capture/           # Skill: Full-page web screenshot capture with Playwright
+webpage-screenshot/           # Skill: Full-page web screenshot capture with Playwright
 qdrant-fastapi-integration/   # Skill: Qdrant + FastAPI integration patterns
 fastapi-best-practices/       # Skill: FastAPI production patterns
 whatsapp-cloud-api-agent/     # Skill: WhatsApp Cloud API agent backend
