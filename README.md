@@ -6,7 +6,7 @@ Production-grade agent skills for FastAPI, Qdrant, WhatsApp Cloud API, and brows
 
 | Skill | Install | What it covers |
 |---|---|---|
-| webpage-screenshot | `npx skills add malikasadjaved/skills@webpage-screenshot` | Full-page screenshots, element capture, PDF, Playwright, FastAPI endpoint |
+| webpage-screenshot | `npx skills add malikasadjaved/skills@webpage-screenshot` | Full-page capture, localhost dev servers, element/PDF, Playwright, Docker |
 | qdrant-fastapi-integration | `npx skills add malikasadjaved/skills@qdrant-fastapi-integration` | Lifespan injection, tenant isolation, batch upsert, Docker Compose |
 | fastapi-best-practices | `npx skills add malikasadjaved/skills@fastapi-best-practices` | Lifespan, Pydantic v2, DI, JWT, error hierarchy |
 | whatsapp-cloud-api-agent | `npx skills add malikasadjaved/skills@whatsapp-cloud-api-agent` | Webhook, routing, templates, Kafka dispatch, state machine |
