@@ -1,11 +1,11 @@
 ---
 name: qdrant-fastapi-integration
 description: >
-  Use this skill when integrating Qdrant into a FastAPI async
-  backend — lifespan client injection, tenant isolation via
-  payload filters, batch upsert patterns, and production
-  deployment with Docker Compose. Complements the official
-  qdrant/skills with application-layer integration patterns.
+  Use when integrating Qdrant into a FastAPI async service — creating 
+  collections, batch upsert with UUID5 IDs, multi-tenant payload filtering 
+  with FieldCondition/MatchValue, HNSW tuning, lifespan-managed QdrantClient 
+  injection, and Qdrant Cloud vs local Docker setup. Complements qdrant/skills 
+  with FastAPI application-layer patterns not covered there.
 triggers:
   - qdrant fastapi
   - qdrant integration

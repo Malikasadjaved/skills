@@ -1,13 +1,12 @@
 ---
 name: whatsapp-cloud-api-agent
 description: >
-  Use this skill when building WhatsApp-based AI agents or automation
-  using the Meta WhatsApp Cloud API. Covers webhook setup, signature
-  verification, sending text/template/media messages, message routing
-  to specialist AI agents, conversation state management, and
-  production deployment patterns for AI receptionists and Digital FTE
-  systems. Designed for FastAPI backends serving Pakistani and
-  emerging-market clinic/business use cases.
+  Use when building WhatsApp bots or AI agents on Meta Cloud API — webhook 
+  GET verification, HMAC-SHA256 signature checking, parsing nested message 
+  payloads with Pydantic, sending text/template/interactive/media messages, 
+  intent routing to specialist agents, Redis session state machine 
+  (IDLE→GREETED→COLLECTING_INFO→RESOLVED), Kafka async dispatch, and 
+  production error codes (131030, 131047, 130429).
 triggers:
   - whatsapp
   - whatsapp api

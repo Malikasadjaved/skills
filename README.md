@@ -1,14 +1,32 @@
 # Agent Skills by @malikasadjaved
 
+> Production-grade skills for Claude Code — built from real Digital FTE
+> architecture. Works with Claude Code, GitHub Copilot, Cursor, and Gemini CLI.
+
 [![skills.sh](https://skills.sh/b/Malikasadjaved/skills)](https://skills.sh/Malikasadjaved/skills)
 
-Production-grade agent skills for FastAPI, Qdrant, WhatsApp Cloud API, and browser automation — built from real Digital FTE architecture.
+## Install
 
-| Skill | Install | What it covers |
+```bash
+# Via npx
+npx skills add malikasadjaved/skills@fastapi-best-practices
+
+# Via GitHub CLI (v2.90.0+)
+gh skill install Malikasadjaved/skills fastapi-best-practices --agent claude-code
+```
+
+## Skills
+
+| Skill | Description | Install |
 |---|---|---|
-| webpage-screenshot | `npx skills add malikasadjaved/skills@webpage-screenshot` | Full-page capture, localhost dev servers, element/PDF, Playwright, Docker |
-| qdrant-fastapi-integration | `npx skills add malikasadjaved/skills@qdrant-fastapi-integration` | Lifespan injection, tenant isolation, batch upsert, Docker Compose |
-| fastapi-best-practices | `npx skills add malikasadjaved/skills@fastapi-best-practices` | Lifespan, Pydantic v2, DI, JWT, error hierarchy |
-| whatsapp-cloud-api-agent | `npx skills add malikasadjaved/skills@whatsapp-cloud-api-agent` | Webhook, routing, templates, Kafka dispatch, state machine |
+| `webpage-screenshot` | Full-page capture, localhost dev servers, element/PDF, Playwright, Docker | `npx skills add malikasadjaved/skills@webpage-screenshot` |
+| `qdrant-fastapi-integration` | Qdrant inside FastAPI — lifespan injection, tenant isolation, batch upsert | `npx skills add malikasadjaved/skills@qdrant-fastapi-integration` |
+| `fastapi-best-practices` | Async Python, Pydantic v2, JWT, DI patterns | `npx skills add malikasadjaved/skills@fastapi-best-practices` |
+| `whatsapp-cloud-api-agent` | Meta webhook, routing, state machine, Kafka dispatch | `npx skills add malikasadjaved/skills@whatsapp-cloud-api-agent` |
+
+## What makes these different
+
+These skills are extracted from a production Digital FTE system (AI receptionist
+for WhatsApp), not written from scratch as tutorials. The patterns are battle-tested.
 
 Built on [skills.sh](https://skills.sh) — the open agent skills ecosystem.

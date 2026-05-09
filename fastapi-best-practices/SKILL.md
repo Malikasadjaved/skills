@@ -1,11 +1,11 @@
 ---
 name: fastapi-best-practices
 description: >
-  Use this skill when building or reviewing FastAPI applications —
-  covering async route design, lifespan management, Pydantic v2 models,
-  dependency injection, error handling, background tasks, middleware,
-  CORS, JWT auth patterns, and OpenAPI configuration. Optimized for
-  AI agent backends and multi-tenant SaaS APIs.
+  Use when building or reviewing FastAPI applications — async route design, 
+  asynccontextmanager lifespan for DB/Qdrant/Redis startup, Pydantic v2 with 
+  model_config and model_validator, Annotated+Depends injection, JWT with 
+  OAuth2PasswordBearer, structured AppException hierarchy, CORS, background 
+  tasks, and OpenAPI config. Python 3.11+, pydantic>=2.0.
 triggers:
   - fastapi
   - python api
