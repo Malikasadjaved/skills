@@ -23,6 +23,7 @@ gh skill install Malikasadjaved/skills fastapi-best-practices --agent claude-cod
 | `qdrant-fastapi-integration` | Qdrant inside FastAPI — lifespan injection, tenant isolation, batch upsert | `npx skills add malikasadjaved/skills@qdrant-fastapi-integration` |
 | `fastapi-best-practices` | Async Python, Pydantic v2, JWT, DI patterns | `npx skills add malikasadjaved/skills@fastapi-best-practices` |
 | `whatsapp-cloud-api-agent` | Meta webhook, routing, state machine, Kafka dispatch | `npx skills add malikasadjaved/skills@whatsapp-cloud-api-agent` |
+| `frontend-design-pro` | 28 design rules, UX laws, color science, CSS architecture, accessibility | `npx skills add malikasadjaved/skills@frontend-design-pro` |
 
 ## What makes these different
 
